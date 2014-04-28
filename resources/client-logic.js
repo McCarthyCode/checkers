@@ -1,42 +1,274 @@
 $(document).ready(function () {
     start ();
 	addImages ();
-	$('#board').click(function (e) {
-		alert(e.parent());
-	});
+	select ();
 });
+
+function available (id) {
+	//var active = $("td#" + id).attr("id");
+	console.log("Active: " + id);
+}
+
+function select () {
+	$("img").click(function () {
+		var target = $( event.target );
+		var space = target.closest("td.b");
+		var spaces = $("td.black");
+		
+		spaces.removeClass("active");
+		spaces.removeClass("available");
+		space.addClass("active");
+		
+		var id = $(".active").attr("id");
+		
+		console.log("Active: " + id);
+		neighbors(id);
+
+	});
+}
+
+function neighbors (id) {
+	var a = 0;
+	var b = 0;
+	var A = 0;
+	var B = 0;
+	
+	switch (id * 1) {
+		default:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			break;
+		case 5:
+			b = 1;
+			break;
+		case 6:
+			a = 1;
+			b = 2;
+			break;
+		case 7:
+			a = 2;
+			b = 3;
+			break;
+		case 8:
+			a = 3;
+			b = 4;
+			break;
+		case 9:
+			a = 5;
+			b = 6;
+			B = 2;
+			break;
+		case 10:
+			a = 6;
+			b = 7;
+			A = 1;
+			B = 3;
+			break;
+		case 11:
+			a = 7;
+			b = 8;
+			A = 2;
+			B = 4;
+			break;
+		case 12:
+			a = 8;
+			A = 3;
+			break;
+		case 13:
+			b = 9;
+			B = 6;
+			break;
+		case 14:
+			a = 9;
+			b = 10;
+			A = 5;
+			B = 7;
+			break;
+		case 15:
+			a = 10;
+			b = 11;
+			A = 6;
+			B = 8;
+			break;
+		case 16:
+			a = 11;
+			b = 12;
+			A = 7;
+			break;
+		case 17:
+			a = 13;
+			b = 14;
+			B = 10;
+			break;
+		case 18:
+			a = 14;
+			b = 15;
+			A = 9;
+			B = 11;
+			break;
+		case 19:
+			a = 15;
+			b = 16;
+			A = 10;
+			B = 12;
+			break;
+		case 20:
+			a = 16;
+			A = 11;
+			break;
+		case 21:
+			b = 17;
+			B = 14;
+			break;
+		case 22:
+			a = 17;
+			b = 18;
+			A = 13;
+			B = 15;
+			break;
+		case 23:
+			a = 18;
+			b = 19;
+			A = 14;
+			B = 16;
+			break;
+		case 24:
+			a = 19;
+			b = 20;
+			A = 15;
+			break;
+		case 25:
+			a = 21;
+			b = 22;
+			B = 18;
+			break;
+		case 26:
+			a = 22;
+			b = 23;
+			A = 17;
+			B = 19;
+			break;
+		case 27:
+			a = 23;
+			b = 24;
+			A = 18;
+			B = 20;
+			break;
+		case 28:
+			a = 24;
+			A = 19;
+			break;
+		case 29:
+			b = 25;
+			B = 22;
+			break;
+		case 30:
+			a = 25;
+			b = 26;
+			A = 21;
+			B = 23;
+			break;
+		case 31:
+			a = 26;
+			b = 27;
+			A = 22;
+			B = 24;
+			break;
+		case 32:
+			a = 27;
+			b = 28;
+			A = 23;
+			break;
+	}
+	
+	if ((a == 0) && (b == 0))
+		return;
+	
+	var spaceA;
+	var spaceB;
+	
+	if (a != 0) {
+		spaceA = $("td#" + a + ".black");
+		if (spaceA.hasClass("b") ||
+			spaceA.hasClass("B")) {
+			a = 0;
+		} else if (spaceA.hasClass("r") ||
+				   spaceA.hasClass("R")) {
+			a = A;
+			spaceA = $("td#" + a + ".black");
+			if ((spaceA.hasClass("b") ||
+				 spaceA.hasClass("B") ||
+				 spaceA.hasClass("r") ||
+				 spaceA.hasClass("R"))) {
+				a = 0;
+			} else {
+				neighbors(A);
+			}
+		}
+	}
+	
+	if (b != 0) {
+		spaceB = $("td#" + b + ".black");
+		if (spaceB.hasClass("b") ||
+			spaceB.hasClass("B")) {
+			b = 0;
+		} else if (spaceB.hasClass("r") ||
+				   spaceB.hasClass("R")) {
+			b = B;
+			spaceB = $("td#" + b + ".black");
+			if ((spaceB.hasClass("b") ||
+				 spaceB.hasClass("B") ||
+				 spaceB.hasClass("r") ||
+				 spaceB.hasClass("R"))) {
+				b = 0;
+			} else {
+				neighbors(B);
+			}
+		}
+	}
+	
+	if (a != 0) {
+		spaceA.addClass("available");
+		console.log("a: " + a);
+	}
+	
+	if (b != 0) {
+		spaceB.addClass("available");
+		console.log("b: " + b);
+	}
+}
 
 function start () {
 	// Normally we'd start with the server's values,
 	// but we need a temporary solution in which
 	// the game always starts on load.
-	//$( "#board" ).function({
-		$( "#00" ).addClass( "r" );
-		$( "#01" ).addClass( "r" );
-		$( "#02" ).addClass( "r" );
-		$( "#03" ).addClass( "r" );
-		$( "#04" ).addClass( "r" );
-		$( "#05" ).addClass( "r" );
-		$( "#06" ).addClass( "r" );
-		$( "#07" ).addClass( "r" );
-		$( "#08" ).addClass( "r" );
-		$( "#09" ).addClass( "r" );
-		$( "#0a" ).addClass( "r" );
-		$( "#0b" ).addClass( "r" );
-		$( "#14" ).addClass( "b" );
-		$( "#15" ).addClass( "b" );
-		$( "#16" ).addClass( "b" );
-		$( "#17" ).addClass( "b" );
-		$( "#18" ).addClass( "b" );
-		$( "#19" ).addClass( "b" );
-		$( "#1a" ).addClass( "b" );
-		$( "#1b" ).addClass( "b" );
-		$( "#1c" ).addClass( "b" );
-		$( "#1d" ).addClass( "b" );
-		$( "#1e" ).addClass( "b" );
-		$( "#1f" ).addClass( "b" );
-	//});	
-};
+	$( "#1" ).addClass( "r" );
+	$( "#2" ).addClass( "r" );
+	$( "#3" ).addClass( "r" );
+	$( "#4" ).addClass( "r" );
+	$( "#5" ).addClass( "r" );
+	$( "#6" ).addClass( "r" );
+	$( "#7" ).addClass( "r" );
+	$( "#19" ).addClass( "r" );
+	$( "#9" ).addClass( "r" );
+	$( "#10" ).addClass( "r" );
+	$( "#11" ).addClass( "r" );
+	$( "#12" ).addClass( "r" );
+	$( "#21" ).addClass( "b" );
+	$( "#22" ).addClass( "b" );
+	$( "#23" ).addClass( "b" );
+	$( "#24" ).addClass( "b" );
+	$( "#25" ).addClass( "b" );
+	$( "#26" ).addClass( "b" );
+	$( "#27" ).addClass( "b" );
+	$( "#28" ).addClass( "b" );
+	$( "#29" ).addClass( "b" );
+	$( "#30" ).addClass( "b" );
+	$( "#31" ).addClass( "b" );
+	$( "#32" ).addClass( "b" );	
+}
 
 function content (name) {
 	return "<img width=\"30px\" height=\"30px\" "

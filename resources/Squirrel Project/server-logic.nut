@@ -7,10 +7,12 @@ class Board
 			      '0',    '0',    '0',    '0',
 			  'b',    'b',    'b',    'b',
 			      'b',    'b',    'b',    'b',
-			  'b',    'b',    'b',    'b'     ]
+			  'b',    'b',    'b',    'b'     ];
+	input;
 }
 
-Board b
+Board b;
+board_string;
 
 function requestHandler(request, response) {
   try {
