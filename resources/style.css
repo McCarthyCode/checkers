@@ -1,0 +1,81 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #dff;
+  margin: 0;
+  padding: 0;
+}
+
+#header {
+  text-align: center;
+}
+
+#main {
+  margin: 5% 0;
+}
+
+td.r {
+  //background-color: red;
+}
+
+td.b {
+  //background-color: black;
+}
+ 
+td.active {
+  background-color: #ff6;
+ }
+
+#board {
+  margin: 1em auto;
+  background-color: #eee;
+  border: solid 3px #440;
+  text-shadow: none;
+}
+
+#board th {
+  background: none;
+}
+
+#board tr {
+  background-color: black;
+  height: 32px;
+}
+
+#board td {
+  text-align: right;
+  width: 30px;
+  color: white;
+  font-size: 0.5em;
+  vertical-align: bottom;
+}
+ 
+#footer {
+  width: 100%;
+  font-size: 0.75em;
+  color: white;
+  display: block;
+  position: absolute;
+  bottom: 0;
+}
+
+#footer p {
+  margin: 1em auto;
+  padding: 0 2em;
+  max-width: 800px;
+}
+
+#footer a:link {
+  color: #ff6;
+}
+
+#footer a:visited {
+  color: #ff6;
+}
+
+.red {
+  background-color: #f43;
+}
+
+.black {
+  background-color: #222;
+}
