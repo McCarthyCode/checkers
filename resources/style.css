@@ -23,9 +23,13 @@ td.b {
  
 td.active {
   background-color: #ff6;
- }
-
-#board {
+}
+ 
+td.available {
+  background-color: #6ff;
+}
+ 
+ #board {
   margin: 1em auto;
   background-color: #eee;
   border: solid 3px #440;
