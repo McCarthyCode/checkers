@@ -1,0 +1,12 @@
+webapp -> server
+board
+
+server:
+
+
+if (legal)
+  move()
+
+
+server -> webapp
+board
