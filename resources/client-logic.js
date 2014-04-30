@@ -1,34 +1,15 @@
+var BOARD_STRING;
+
 $(document).ready(function () {
+	setInterval( getValues, 1000 );
 	start();
-	addImages();
-	select();
-	play();
 });
 
-function jump (from, to) {
-
-}
-
-function move (from, to) {
-	var spaces = $("td.black");
-	var fromSpace = $("td#" + from);
-	var toSpace = $("td#" + to);
-	
-	spaces.removeClass("active");
-	spaces.removeClass("available");
-	
-	if (fromSpace.hasClass("b")) {
-		toSpace.addClass("b");
-		fromSpace.removeClass("b");
-	} else if (fromSpace.hasClass("B")) {
-		toSpace.addClass("B");
-		fromSpace.removeClass("B");
-	}
-	
-	addImages();
-}
-
 function play () {
+	addImages();
+	$("textarea").html("Click a black checker to start.");
+	select();
+	
 	$("td").click(function () {
 		var active = $("td.active");
 		var target = $(this);
@@ -40,14 +21,21 @@ function play () {
 		var targetRow = target.parent().attr("id");
 		
 		if (target.hasClass("available")) {
-			if ((activeRow - targetRow) > 1) {
-				console.log("Jumping from " + activeID +
-							" to " + targetID + "...");
-				//jump(activeID, targetID);
-			} else {
-				console.log("Moving from " + activeID +
-							" to " + targetID + "...");
-				//move(activeID, targetID);
+			switch (activeRow - targetRow) {
+				case 2:
+				case -2:
+					$("textarea").html(
+						"Your vote: Jump from space " + activeID + " to " + targetID + ".\n" +
+						"Page will refresh once votes have been cast."
+					);
+					break;
+				case 1:
+				case -1:
+					$("textarea").html(
+						"Your vote: Move from space " + activeID + " to " + targetID + ".\n" +
+						"Page will refresh once vote has been cast."
+					);
+					break;
 			}
 		}
 	});
@@ -55,8 +43,9 @@ function play () {
 
 function select () {
 	$("img").click(function () {
+		event.preventDefault();
 		var target = $(this);
-		var space = target.closest("td.b");
+		var space = target.closest("td.b, td.B");
 		var spaces = $("td.black");
 		
 		spaces.removeClass("active");
@@ -65,8 +54,11 @@ function select () {
 		
 		var id = $(".active").attr("id");
 		
-		console.log("Active: " + id);
 		neighbors(id);
+		if (space.hasClass("B"))
+			king_neighbors(id);
+		
+		$("textarea").html("Now click on a blue space to make your move.");
 	});
 }
 
@@ -237,8 +229,7 @@ function neighbors (id) {
 		if (spaceA.hasClass("b") ||
 			spaceA.hasClass("B")) {
 			a = 0;
-		} else if (spaceA.hasClass("r") ||
-				   spaceA.hasClass("R")) {
+		} else if (spaceA.hasClass("r") || spaceA.hasClass("R")) {
 			a = A;
 			spaceA = $("td#" + a + ".black");
 			if ((spaceA.hasClass("b") ||
@@ -257,8 +248,7 @@ function neighbors (id) {
 		if (spaceB.hasClass("b") ||
 			spaceB.hasClass("B")) {
 			b = 0;
-		} else if (spaceB.hasClass("r") ||
-				   spaceB.hasClass("R")) {
+		} else if (spaceB.hasClass("r") || spaceB.hasClass("R")) {
 			b = B;
 			spaceB = $("td#" + b + ".black");
 			if ((spaceB.hasClass("b") ||
@@ -272,56 +262,259 @@ function neighbors (id) {
 		}
 	}
 	
-	if (a != 0) {
+	if (a != 0)
 		spaceA.addClass("available");
-		//console.log("a: " + a);
+	
+	if (b != 0)
+		spaceB.addClass("available");
+}
+
+function king_neighbors (id) {
+	var a = 0;
+	var b = 0;
+	var A = 0;
+	var B = 0;
+	
+	switch (id * 1) {
+		default:
+		case 1:
+			a = 5;
+			b = 6;
+			B = 10;
+		case 2:
+			a = 6;
+			b = 7;
+			A = 9;
+			B = 11;
+		case 3:
+			a = 7;
+			b = 8;
+			A = 10;
+			B = 11;
+		case 4:
+			a = 8;
+			A = 11;
+			break;
+		case 5:
+			b = 9;
+			B = 14;
+			break;
+		case 6:
+			a = 9;
+			b = 10;
+			A = 13;
+			B = 15;
+			break;
+		case 7:
+			a = 10;
+			b = 11;
+			A = 14;
+			B = 16;
+			break;
+		case 8:
+			a = 11;
+			b = 12;
+			A = 15;
+			break;
+		case 9:
+			a = 13;
+			b = 14;
+			B = 18;
+			break;
+		case 10:
+			a = 14;
+			b = 15;
+			A = 17;
+			B = 19;
+			break;
+		case 11:
+			a = 15;
+			b = 16;
+			A = 18;
+			B = 20;
+			break;
+		case 12:
+			a = 16;
+			A = 19;
+			break;
+		case 13:
+			b = 17;
+			B = 22;
+			break;
+		case 14:
+			a = 17;
+			b = 18;
+			A = 21;
+			B = 23;
+			break;
+		case 15:
+			a = 18;
+			b = 19;
+			A = 22;
+			B = 24;
+			break;
+		case 16:
+			a = 19;
+			b = 20;
+			A = 23;
+			break;
+		case 17:
+			a = 21;
+			b = 22;
+			B = 26;
+			break;
+		case 18:
+			a = 22;
+			b = 23;
+			A = 25;
+			B = 27;
+			break;
+		case 19:
+			a = 23;
+			b = 24;
+			A = 26;
+			B = 28;
+			break;
+		case 20:
+			a = 24;
+			A = 27;
+			break;
+		case 21:
+			b = 25;
+			B = 30;
+			break;
+		case 22:
+			a = 25;
+			b = 26;
+			A = 29;
+			B = 31;
+			break;
+		case 23:
+			a = 26;
+			b = 27;
+			A = 30;
+			B = 32;
+			break;
+		case 24:
+			a = 27;
+			b = 28;
+			A = 31;
+			break;
+		case 25:
+			a = 29;
+			b = 30;
+			break;
+		case 26:
+			a = 30;
+			b = 31;
+			break;
+		case 27:
+			a = 31;
+			b = 32;
+			break;
+		case 28:
+			a = 32;
+			break;
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+			break;
+	}
+	
+	if ((a == 0) && (b == 0))
+		return;
+	
+	var spaceA;
+	var spaceB;
+	
+	if (a != 0) {
+		spaceA = $("td#" + a + ".black");
+		if (spaceA.hasClass("b") ||
+			spaceA.hasClass("B")) {
+			a = 0;
+		} else if (spaceA.hasClass("r") || spaceA.hasClass("R")) {
+			a = A;
+			spaceA = $("td#" + a + ".black");
+			if ((spaceA.hasClass("b") ||
+				 spaceA.hasClass("B") ||
+				 spaceA.hasClass("r") ||
+				 spaceA.hasClass("R"))) {
+				a = 0;
+			} else {
+				//neighbors(A);
+				//king_neighbors(A);
+			}
+		}
 	}
 	
 	if (b != 0) {
-		spaceB.addClass("available");
-		//console.log("b: " + b);
+		spaceB = $("td#" + b + ".black");
+		if (spaceB.hasClass("b") ||
+			spaceB.hasClass("B")) {
+			b = 0;
+		} else if (spaceB.hasClass("r") || spaceB.hasClass("R")) {
+			b = B;
+			spaceB = $("td#" + b + ".black");
+			if ((spaceB.hasClass("b") ||
+				 spaceB.hasClass("B") ||
+				 spaceB.hasClass("r") ||
+				 spaceB.hasClass("R"))) {
+				b = 0;
+			} else {
+				//neighbors(B);
+				//king_neighbors(B);
+			}
+		}
 	}
+	
+	if (a != 0)
+		spaceA.addClass("available");
+	
+	if (b != 0)
+		spaceB.addClass("available");
 }
 
 function start () {
-	// Normally we'd start with the server's values,
-	// but we need a temporary solution in which
-	// the game always starts on load.
-	$( "#1" ).addClass( "r" );
-	$( "#2" ).addClass( "r" );
-	$( "#3" ).addClass( "r" );
-	$( "#4" ).addClass( "r" );
-	$( "#5" ).addClass( "r" );
-	$( "#6" ).addClass( "r" );
-	$( "#7" ).addClass( "r" );
-	$( "#19" ).addClass( "r" );
-	$( "#9" ).addClass( "r" );
-	$( "#10" ).addClass( "r" );
-	$( "#11" ).addClass( "r" );
-	$( "#12" ).addClass( "r" );
-	$( "#21" ).addClass( "b" );
-	$( "#22" ).addClass( "b" );
-	$( "#23" ).addClass( "b" );
-	$( "#24" ).addClass( "b" );
-	$( "#25" ).addClass( "b" );
-	$( "#26" ).addClass( "b" );
-	$( "#27" ).addClass( "b" );
-	$( "#28" ).addClass( "b" );
-	$( "#29" ).addClass( "b" );
-	$( "#30" ).addClass( "b" );
-	$( "#31" ).addClass( "b" );
-	$( "#32" ).addClass( "b" );	
+	$("textarea").html("Loading content...");
+	$.get( "/resources/board.txt", function(result) {
+		BOARD_STRING = result;
+		updateValues(result);
+		addImages();
+		select();
+		play();
+	});
 }
 
 function content (name) {
-	return "<img width=\"30px\" height=\"30px\" "
-		 + "src=\"images/game-pieces/"
-		 + name
-		 + "\" style=\"display: block;\">";
+	return "<img " + "src=\"images/game-pieces/" + name + "\">";
 };
+
+function getValues () {
+	$.get( "/resources/board.txt", function(result) {
+		if (result != BOARD_STRING) {
+			start();
+			console.log("NOT all good");
+		} else {
+			console.log("all good");
+		}
+	});
+	
+}
+
+function updateValues (string) {
+	for (var i = 0; i < 32; i++)
+		updateValue (i + 1, string[i]);
+}
+
+function updateValue (id, value) {
+	$("td#" + id).attr("class", "black " + value);
+}
 
 function addImages () {
-	$('.r').html(content("red.png"));
-	$('.b').html(content("black.png"));
+	$('.0').html("");
+	$('.r').html(content("red.svg"));
+	$('.b').html(content("black.svg"));
+	$('.R').html(content("red_king.svg"));
+	$('.B').html(content("black_king.svg"));
 };
-
