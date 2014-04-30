@@ -477,7 +477,8 @@ function king_neighbors (id) {
 
 function start () {
 	$("textarea").html("Loading content...");
-	$.get( "/resources/board.txt", function(result) {
+	$.get("http://mattmc318.github.io/checkers/resources/board.txt",
+	function(result) {
 		BOARD_STRING = result;
 		updateValues(result);
 		addImages();
@@ -491,7 +492,8 @@ function content (name) {
 };
 
 function getValues () {
-	$.get( "/resources/board.txt", function(result) {
+	$.get("http://mattmc318.github.io/checkers/resources/board.txt",
+	function(result) {
 		if (result != BOARD_STRING) {
 			start();
 			console.log("NOT all good");
