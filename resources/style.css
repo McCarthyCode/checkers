@@ -1,8 +1,41 @@
-body {
+* {
   font-family: 'Open Sans', sans-serif;
-  background-color: #dff;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: #dff;
+}
+
+#page {
+  min-height: 100%;
+  margin: 0 auto -75px;
+  display: block;
+  /* max-width: 540px; */
+  /* padding: 0 1em; */
+  /* background-color: white; */
+}
+
+#page:after {
+  content: "";
+  display: block;
+}
+
+#page:after, #footer {
+  height: 75px;
+}
+ 
+#footer {
+  /* width: 100%; */
+  font-size: 0.75em;
+  color: white;
+  display: block;
+  /* margin: auto; */
+  padding: 0 1em;
+  /* position: absolute; */
+  /* bottom: 0; */
 }
 
 #header {
@@ -10,7 +43,7 @@ body {
 }
 
 #main {
-  margin: 5% 0;
+  /* margin: 3em 0; */
 }
 
 td.r {
@@ -52,20 +85,11 @@ td.available {
   font-size: 0.5em;
   vertical-align: bottom;
 }
- 
-#footer {
-  width: 100%;
-  font-size: 0.75em;
-  color: white;
-  display: block;
-  position: absolute;
-  bottom: 0;
-}
 
 #footer p {
-  margin: 1em auto;
-  padding: 0 2em;
-  max-width: 800px;
+  margin: 0 auto;
+  padding: 0.5em 0;
+  max-width: 540px;
 }
 
 #footer a:link {

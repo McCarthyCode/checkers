@@ -1,17 +1,61 @@
 $(document).ready(function () {
-    start ();
-	addImages ();
-	select ();
+	start();
+	addImages();
+	select();
+	play();
 });
 
-function available (id) {
-	//var active = $("td#" + id).attr("id");
-	console.log("Active: " + id);
+function jump (from, to) {
+
+}
+
+function move (from, to) {
+	var spaces = $("td.black");
+	var fromSpace = $("td#" + from);
+	var toSpace = $("td#" + to);
+	
+	spaces.removeClass("active");
+	spaces.removeClass("available");
+	
+	if (fromSpace.hasClass("b")) {
+		toSpace.addClass("b");
+		fromSpace.removeClass("b");
+	} else if (fromSpace.hasClass("B")) {
+		toSpace.addClass("B");
+		fromSpace.removeClass("B");
+	}
+	
+	addImages();
+}
+
+function play () {
+	$("td").click(function () {
+		var active = $("td.active");
+		var target = $(this);
+		
+		var activeID = active.attr("id");
+		var targetID = target.attr("id");
+		
+		var activeRow = active.parent().attr("id");
+		var targetRow = target.parent().attr("id");
+		
+		if (target.hasClass("available")) {
+			if ((activeRow - targetRow) > 1) {
+				console.log("Jumping from " + activeID +
+							" to " + targetID + "...");
+				//jump(activeID, targetID);
+			} else {
+				console.log("Moving from " + activeID +
+							" to " + targetID + "...");
+				//move(activeID, targetID);
+			}
+		}
+	});
 }
 
 function select () {
 	$("img").click(function () {
-		var target = $( event.target );
+		var target = $(this);
 		var space = target.closest("td.b");
 		var spaces = $("td.black");
 		
@@ -23,7 +67,6 @@ function select () {
 		
 		console.log("Active: " + id);
 		neighbors(id);
-
 	});
 }
 
@@ -204,7 +247,7 @@ function neighbors (id) {
 				 spaceA.hasClass("R"))) {
 				a = 0;
 			} else {
-				neighbors(A);
+				//neighbors(A);
 			}
 		}
 	}
@@ -224,19 +267,19 @@ function neighbors (id) {
 				 spaceB.hasClass("R"))) {
 				b = 0;
 			} else {
-				neighbors(B);
+				//neighbors(B);
 			}
 		}
 	}
 	
 	if (a != 0) {
 		spaceA.addClass("available");
-		console.log("a: " + a);
+		//console.log("a: " + a);
 	}
 	
 	if (b != 0) {
 		spaceB.addClass("available");
-		console.log("b: " + b);
+		//console.log("b: " + b);
 	}
 }
 
@@ -278,7 +321,7 @@ function content (name) {
 };
 
 function addImages () {
-	$('.r').html (content ("red.png"));
-	$('.b').html (content ("black.png"));
+	$('.r').html(content("red.png"));
+	$('.b').html(content("black.png"));
 };
 
