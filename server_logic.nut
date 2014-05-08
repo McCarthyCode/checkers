@@ -374,7 +374,7 @@ function Board::playerMove (from, to) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/*
+
 Board.spaces <- [	  0,      0,      0,      0,
 				  0,      0,      0,      0,
 					  0,      0,      0,      0,
@@ -383,12 +383,12 @@ Board.spaces <- [	  0,      0,      0,      0,
 				 -1,      1,      0,      0,
 					  0,     -1,     -2,      0,
 				  0,      0,      0,      0		]
-*/
 
-local derp = Space(1)
-print ("derp.D: " + derp.D + "\n")
 
-Board.playerMove(24, 19)
+//local derp = Space(1)
+//print ("derp.D: " + derp.D + "\n")
+
+//Board.playerMove(24, 19)
 
 local a = Board.value()
 

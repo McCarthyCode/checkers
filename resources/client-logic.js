@@ -25,16 +25,26 @@ function play () {
 				case 2:
 				case -2:
 					$("textarea").html(
-						"Your vote: Jump from space " + activeID + " to " + targetID + ".\n" +
-						"Page will refresh once votes have been cast."
+						"Your input: Jump from space " + activeID + " to " + targetID + ".\n" +
+						"Page will refresh once server updates."
 					);
+					$.get("https://agent.electricimp.com/pO5IMo2Ad63q?from=" +
+							activeID + "&to=" + targetID).done(function() {
+    					BOARD_STRING = "";
+    					$("textarea").html("Jump successful.");
+  					});
 					break;
 				case 1:
 				case -1:
 					$("textarea").html(
-						"Your vote: Move from space " + activeID + " to " + targetID + ".\n" +
-						"Page will refresh once vote has been cast."
+						"Your input: Move from space " + activeID + " to " + targetID + ".\n" +
+						"Page will refresh once server updates."
 					);
+					$.get("https://agent.electricimp.com/pO5IMo2Ad63q?from=" +
+							activeID + "&to=" + targetID).done(function() {
+    					BOARD_STRING = "";
+    					$("textarea").html("Move successful.");
+  					});
 					break;
 			}
 		}
@@ -477,7 +487,7 @@ function king_neighbors (id) {
 
 function start () {
 	$("textarea").html("Loading content...");
-	$.get("http://agent.electricimp.com/pO5IMo2Ad63q?board",
+	$.get("https://agent.electricimp.com/pO5IMo2Ad63q?board",
 	function(result) {
 		BOARD_STRING = result;
 		updateValues(result);
@@ -492,7 +502,7 @@ function content (name) {
 };
 
 function getValues () {
-	$.get("http://agent.electricimp.com/pO5IMo2Ad63q?board",
+	$.get("https://agent.electricimp.com/pO5IMo2Ad63q?board",
 	function(result) {
 		if (result != BOARD_STRING) {
 			start();
