@@ -477,7 +477,7 @@ function king_neighbors (id) {
 
 function start () {
 	$("textarea").html("Loading content...");
-	$.get("https://agent.electricimp.com/pO5IMo2Ad63q?board",
+	$.get("http://agent.electricimp.com/pO5IMo2Ad63q?board",
 	function(result) {
 		BOARD_STRING = result;
 		updateValues(result);
@@ -492,7 +492,7 @@ function content (name) {
 };
 
 function getValues () {
-	$.get("https://agent.electricimp.com/pO5IMo2Ad63q?board",
+	$.get("http://agent.electricimp.com/pO5IMo2Ad63q?board",
 	function(result) {
 		if (result != BOARD_STRING) {
 			start();
